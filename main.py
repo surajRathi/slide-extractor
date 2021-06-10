@@ -6,8 +6,10 @@ import os
 from input import CVReadVideo
 from slide_check import SimpleSlideChecker
 
-FILE = '/home/suraj/test.mp4'
-IMAGE_DIRECTORY = 'slides_extraction_out'
+FILE = 'test.mp4'
+IMAGE_DIRECTORY = f'slides_extraction_out/' + (
+    FILE[:FILE.rfind('.')] if (index := FILE.rfind('/')) == -1 else FILE[index:FILE.rfind('.')]
+)
 IMAGE_NAME_FORMAT = 'image_%04d.png'
 
 
@@ -27,6 +29,7 @@ def main():
             debug_new = False
             if sc.check(frame, prev):  # Save the previous frame when the slide changes
                 debug_new = True
+                print("NEW!!!")
                 if prev is not None:
                     cv.imwrite(os.path.join(IMAGE_DIRECTORY, IMAGE_NAME_FORMAT % i), frame)
                     i += 1
@@ -36,8 +39,8 @@ def main():
             # bg = np.array((255, 255, 255,)).reshape((1, 1, -1))
             # frame[((np.linalg.norm(frame - bg, ord=2, axis=2)) < 200)] = (0, 255, 255)
 
-            if debug_new:
-                frame[:, :, :] = (0, 0, 255)  # BGR
+            # if debug_new:
+            #     frame[:, :, :] = (0, 0, 255)  # BGR
 
             cv.imshow('main', frame)
             if cv.waitKey(1) == ord('q'):
