@@ -24,7 +24,9 @@ def main():
         i = 0
         prev = None
         for frame in stream:
+            debug_new = False
             if sc.check(frame, prev):  # Save the previous frame when the slide changes
+                debug_new = True
                 if prev is not None:
                     cv.imwrite(os.path.join(IMAGE_DIRECTORY, IMAGE_NAME_FORMAT % i), frame)
                     i += 1
@@ -33,6 +35,9 @@ def main():
             # # Visualize Background
             # bg = np.array((255, 255, 255,)).reshape((1, 1, -1))
             # frame[((np.linalg.norm(frame - bg, ord=2, axis=2)) < 200)] = (0, 255, 255)
+
+            if debug_new:
+                frame[:, :, :] = (0, 0, 255)  # BGR
 
             cv.imshow('main', frame)
             if cv.waitKey(1) == ord('q'):
