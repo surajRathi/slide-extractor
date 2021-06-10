@@ -4,7 +4,7 @@ import cv2 as cv
 import os
 
 from input import CVReadVideo
-from slide_check import SlideChecker
+from slide_check import SimpleSlideChecker
 
 FILE = '/home/suraj/test.mp4'
 IMAGE_DIRECTORY = 'slides_extraction_out'
@@ -20,7 +20,7 @@ def main():
     cv.namedWindow('main')
 
     with CVReadVideo(FILE) as stream:
-        sc = SlideChecker(*stream.get_dims())
+        sc = SimpleSlideChecker(*stream.get_dims())
         i = 0
         prev = None
         for frame in stream:

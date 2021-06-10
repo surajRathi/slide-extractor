@@ -2,14 +2,7 @@
 import numpy as np
 
 
-def main():
-    pass
-    
-if __name__ == '__main__':
-    main()
-
-
-class SlideChecker:
+class SimpleSlideChecker:
     def __init__(self, width, height):
         self.bg = np.array((255, 255, 255,)).reshape((1, 1, -1))
         self.n_pixels = width * height
