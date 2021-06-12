@@ -28,7 +28,7 @@ class SimpleSlideChecker:
         n_overwritten = np.count_nonzero(overwritten)
         n_annotated = n_changed - n_overwritten
 
-        print(f"n: {n:2f}\t%bg: {n_bg * 100 / n:.2f}\t"
+        print(f"n: {n:n}\t%bg: {n_bg * 100 / n:.2f}\t"
               f"%ch: {n_changed * 100 / n:.2f}\t"
               f"%an: {n_annotated * 100 / (1 + n_changed):.2f}")
 
