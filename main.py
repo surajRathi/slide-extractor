@@ -6,7 +6,8 @@ import os
 from input import CVReadVideo
 from slide_check import SimpleSlideChecker
 
-FILE = 'test.mp4'
+FILE = ['./videos/ppt_test.mp4', './videos/wb_test.mp4'][0]
+
 IMAGE_DIRECTORY = f'slides_extraction_out/' + (
     FILE[:FILE.rfind('.')] if (index := FILE.rfind('/')) == -1 else FILE[index:FILE.rfind('.')]
 )
