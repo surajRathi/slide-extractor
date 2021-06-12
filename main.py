@@ -2,21 +2,22 @@
 
 import cv2 as cv
 import os
+import pathlib
 
 from input import CVReadVideo
 from slide_check import SimpleSlideChecker
 
 FILE = ['./videos/ppt_test.mp4', './videos/wb_test.mp4'][0]
 
-IMAGE_DIRECTORY = f'slides_extraction_out/' + (
+IMAGE_DIRECTORY = f'slide_extraction_out' + (
     FILE[:FILE.rfind('.')] if (index := FILE.rfind('/')) == -1 else FILE[index:FILE.rfind('.')]
 )
 IMAGE_NAME_FORMAT = 'image_%04d.png'
 
-
+ 
 def main():
     try:
-        os.mkdir(IMAGE_DIRECTORY)
+        os.makedirs(IMAGE_DIRECTORY)
     except FileExistsError:
         pass
 
@@ -40,8 +41,8 @@ def main():
             # bg = np.array((255, 255, 255,)).reshape((1, 1, -1))
             # frame[((np.linalg.norm(frame - bg, ord=2, axis=2)) < 200)] = (0, 255, 255)
 
-            # if debug_new:
-            #     frame[:, :, :] = (0, 0, 255)  # BGR
+            if debug_new:
+                frame[:, :, :] = (0, 0, 255)  # BGR
 
             cv.imshow('main', frame)
             if cv.waitKey(1) == ord('q'):

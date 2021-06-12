@@ -33,3 +33,5 @@ class SimpleSlideChecker:
               f"%an: {n_annotated * 100 / (1 + n_changed):.2f}")
 
         return not ((n_changed <= 0.005 * n) or (n_annotated >= 0.3 * n_changed))
+
+        
