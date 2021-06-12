@@ -1,7 +1,12 @@
 #! /usr/bin/env python
 import numpy as np
+import sys
+import matplotlib
+matplotlib.use('agg')
 
+import matplotlib.pyplot as plt
 
+import cv2 as cv
 class SimpleSlideChecker:
     def __init__(self, width, height, **kwargs):
         self.params = {
@@ -11,12 +16,51 @@ class SimpleSlideChecker:
         }
         self.params.update(kwargs)
 
-        self.bg = np.array((255, 255, 255,)).reshape((1, 1, -1))
+        self.bg = np.array((255,))
         self.n_pixels = width * height
+
+    def toblackwhite(self, frame):
+        gray_image = cv.cvtColor(frame, cv.COLOR_BGR2GRAY)
+        frame_threshed = cv.adaptiveThreshold(gray_image,255,cv.ADAPTIVE_THRESH_GAUSSIAN_C, \
+            cv.THRESH_BINARY,11,2)
+        return frame_threshed/255
+
+    def toBackgroundScore(self,frame,prev):
+
+        score= (np.sum((frame-prev)[prev==0]))/(frame.shape[0]*frame.shape[1]-np.sum(prev))
+     
+        if not np.isnan(score):
+            return round(score,3)
+        else:
+            return 0
+
+    def changeratiobackground(self,frame,prev):
+        totalchange=np.sum(np.abs(frame-prev))
+        temp=(prev-frame)
+        changebg=np.sum(temp[prev==0])
+        return round(-changebg/totalchange,3)
+
 
     def check(self, frame: np.ndarray, prev=None) -> bool:
         if prev is None:
             return True
+
+        frame_threshed = self.toblackwhite(frame)
+        prev_threshed = self.toblackwhite(prev)
+        
+        back_score=self.toBackgroundScore(frame_threshed,prev_threshed)
+        changeratio=self.changeratiobackground(frame_threshed,prev_threshed)
+
+        print(back_score)
+        print('back_score: {} and change_ratio: = {}'.format(back_score,changeratio))
+
+        if changeratio!=0 and changeratio<0.6 and back_score>0.03:
+            return True
+        else:
+            return False
+
+        sys.exit()
+       
 
         bg = ((prev - self.bg) ** 2).sum(axis=2) < self.params['cdist_threshold']
         changed = ((frame - prev) ** 2).sum(axis=2) > self.params['changed_cdist_threshold']
