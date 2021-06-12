@@ -16,7 +16,7 @@ IMAGE_NAME_FORMAT = 'image_%04d.png'
 
 def main():
     try:
-        os.mkdir(IMAGE_DIRECTORY)
+        os.makedirs(IMAGE_DIRECTORY, exist_ok=True)
     except FileExistsError:
         pass
 
