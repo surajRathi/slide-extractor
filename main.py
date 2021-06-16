@@ -15,7 +15,7 @@ def main():
     FILE = FILES[1]
 
     IMAGE_DIRECTORY = f'slides_extraction_out/' + (
-        FILE[:FILE.rfind('.')] if (index := FILE.rfind('/')) == -1 else FILE[index:FILE.rfind('.')]
+        FILE[:FILE.rfind('.')] if (index := FILE.rfind('/')) == -1 else FILE[index + 1:FILE.rfind('.')]
     )
 
     # Create output structure

@@ -56,7 +56,7 @@ class ScrollableVideo:
 def main():
     FILE = FILES[None]  # *** Set this file to be able to use this program ***
 
-    VIDEO_NAME = FILE[:FILE.rfind('.')] if (index := FILE.rfind('/')) == -1 else FILE[index:FILE.rfind('.')]
+    VIDEO_NAME = FILE[:FILE.rfind('.')] if (index := FILE.rfind('/')) == -1 else FILE[index + 1:FILE.rfind('.')]
     OUTPUT_FILENAME = f"./videos/{VIDEO_NAME}.txt"
 
     cv.namedWindow('main')
