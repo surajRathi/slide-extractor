@@ -35,7 +35,7 @@ def main():
         prev = None
         for frame in stream:
             debug_new = False
-            if sc.check(frame, prev):  # Save the previous frame when the slide changes
+            if sc.check_frame(frame, prev):  # Save the previous frame when the slide changes
                 debug_new = True
                 print("NEW!!!")
                 if prev is not None:
