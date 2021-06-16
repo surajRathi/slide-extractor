@@ -27,6 +27,9 @@ class CVReadVideo:
             return frame
         raise StopIteration()
 
+    def __len__(self):
+        return int(self.cap.get(cv.CAP_PROP_FRAME_COUNT))
+
     def get_dims(self) -> Tuple[int, int]:  # height, width
         return int(self.cap.get(4)), int(self.cap.get(3))
 
