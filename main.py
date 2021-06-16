@@ -6,19 +6,26 @@ import os
 from input import CVReadVideo
 from slide_check import SimpleSlideChecker
 
-FILE = ['./videos/ppt_test.mp4', './videos/wb_test.mp4'][0]
+FILES = ['./videos/ppt_test.mp4', './videos/wb_test.mp4'][0]
 
-IMAGE_DIRECTORY = f'slides_extraction_out/' + (
-    FILE[:FILE.rfind('.')] if (index := FILE.rfind('/')) == -1 else FILE[index:FILE.rfind('.')]
-)
 IMAGE_NAME_FORMAT = 'image_%04d.png'
 
 
 def main():
+    FILE = FILES[1]
+
+    IMAGE_DIRECTORY = f'slides_extraction_out/' + (
+        FILE[:FILE.rfind('.')] if (index := FILE.rfind('/')) == -1 else FILE[index:FILE.rfind('.')]
+    )
+
+    # Create output structure
     try:
         os.makedirs(IMAGE_DIRECTORY, exist_ok=True)
     except FileExistsError:
         pass
+
+    for f in os.listdir(IMAGE_DIRECTORY):
+        os.remove(os.path.join(IMAGE_DIRECTORY, f))
 
     cv.namedWindow('main')
 
