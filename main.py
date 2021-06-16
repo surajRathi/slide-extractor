@@ -6,7 +6,7 @@ import os
 from input import CVReadVideo
 from slide_check import SimpleSlideChecker
 
-FILES = ['./videos/ppt_test.mp4', './videos/wb_test.mp4'][0]
+FILES = ['./videos/ppt_test.mp4', './videos/wb_test.mp4']
 
 IMAGE_NAME_FORMAT = 'image_%04d.png'
 
