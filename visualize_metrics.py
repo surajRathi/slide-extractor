@@ -13,9 +13,10 @@ IMAGE_NAME_FORMAT = 'image_%04d.png'
 
 
 def main():
-    FILE = FILES[0]
+    FILE = FILES[1]
     VIDEO_NAME = FILE[:FILE.rfind('.')] if (index := FILE.rfind('/')) == -1 else FILE[index + 1:FILE.rfind('.')]
     KEY_FRAMES_FILENAME = f"./videos/{VIDEO_NAME}.txt"
+    METRIC_OUTPUT_FILENAME = f"./videos/{VIDEO_NAME}.csv"
 
     keyframes: list[int] = []
     with open(KEY_FRAMES_FILENAME) as f:
@@ -62,6 +63,8 @@ def main():
     fig.show()
 
     print()
+
+    np.savetxt(METRIC_OUTPUT_FILENAME, metrics, delimiter=',')
 
 
 if __name__ == '__main__':
