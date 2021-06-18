@@ -1,7 +1,7 @@
 #! /usr/bin/env python
 
-from input import CVReadVideo
-from slide_check import SimpleSlideChecker
+from slides_extractor.input import CVReadVideo
+from slides_extractor.slide_check import SimpleSlideChecker
 
 import numpy as np
 import matplotlib.pyplot as plt

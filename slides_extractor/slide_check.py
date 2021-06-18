@@ -26,8 +26,9 @@ class SimpleSlideChecker:
               f"%an: {n_annotated * 100 / (1 + n_changed):.2f}",
               )
         #           Either low changes       or High annotation percent
-        annotated = (n_changed <= 0.005 * n) or (n_annotated >= 0.3 * n_changed)
-        is_new_slide = not annotated
+        # annotated = (n_changed <= 0.005 * n) or (n_annotated >= 0.3 * n_changed)
+        # is_new_slide = not annotated
+        is_new_slide = (n_changed > n * 0.4153846153846154) and (n_overwritten > n * 0.017435897435897435)
         return is_new_slide
 
     def extract_metrics(self, frame, prev):

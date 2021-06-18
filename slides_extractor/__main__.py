@@ -3,8 +3,8 @@
 import cv2 as cv
 import os
 
-from input import CVReadVideo
-from slide_check import SimpleSlideChecker
+# TODO: Shouldn't we use relative imports?
+from slides_extractor import CVReadVideo, SimpleSlideChecker
 
 FILES = ['./videos/ppt_test.mp4', './videos/wb_test.mp4']
 

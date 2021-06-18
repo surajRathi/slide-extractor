@@ -3,7 +3,7 @@
 import cv2 as cv
 from collections import deque
 
-from input import CVReadVideo
+from slides_extractor.input import CVReadVideo
 
 # Assumes videos in ./videos/
 FILES = ['./videos/ppt_test.mp4', './videos/wb_test.mp4']
