@@ -1,5 +1,15 @@
 #! /usr/bin/env python3
 
+"""Manually select keyframes from a video
+
+Usage:
+In the main function, set the video file. This file must be in ./videos/
+The file ./videos/{video_name}.txt will be created/replaced by this program
+Start the program, use the `h` and `l` keys to move back and forward respectively.
+Press `enter` to add the current frame index to ./videos/{video_name}.txt
+Press `q` to quit
+"""
+
 import cv2 as cv
 from collections import deque
 
@@ -12,13 +22,29 @@ KEY_ENTER = 13
 
 
 class ScrollableVideo:
+    """
+    Usage:
+    ```python
+    # Raises StopIteration when no more frames
+    with ScrollableVideo(FILENAME) as video:
+        if forward():
+            i, frame = video.next()
+        if backward():
+            i, frame = video.prev()
+
+        print(i)
+        cv.imshow('main', frame)
+    ```
+    """
+
     def __init__(self, FILENAME, max_buffer_len=100):
         self.max_buffer_len = max_buffer_len
+
         self.stream = CVReadVideo(FILENAME)
         self.buffer = deque()
 
-        self.i = 0
-        self.index = 0
+        self.i = 0  # Index of current frame in the video
+        self.index = 0  # Index of current frame in the buffer
 
     def __enter__(self):
         self.stream = self.stream.__enter__()
@@ -35,9 +61,9 @@ class ScrollableVideo:
         return self.next()
 
     def next(self):
-        if self.index == len(self.buffer) - 1:
+        if self.index == len(self.buffer) - 1:  # If no more frames in buffer
             self.buffer.append(next(self.stream))
-            if len(self.buffer) > self.max_buffer_len:
+            if len(self.buffer) >= self.max_buffer_len:
                 self.index -= 1
                 self.buffer.popleft()
 
@@ -47,7 +73,7 @@ class ScrollableVideo:
         return self.i, self.buffer[self.index]
 
     def prev(self):
-        if self.index > 0:
+        if self.index > 0:  # If previous frames are available in buffer
             self.index -= 1
             self.i -= 1
         return self.i, self.buffer[self.index]
@@ -63,6 +89,8 @@ def main():
 
     with ScrollableVideo(FILE) as stream, open(OUTPUT_FILENAME, 'w') as out:
         # Note: Despite video being scrollable, output file is not scrollable.
+        #       After pressing enter (selecting the frame), do not go backwards
+
         try:
             i, frame = next(stream)
 
