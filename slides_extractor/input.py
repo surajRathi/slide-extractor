@@ -1,11 +1,14 @@
 #! /usr/bin/env python
-import os
+from __future__ import annotations
 from typing import Tuple
 
 import cv2 as cv
+import numpy as np
 
 
 class CVReadVideo:
+    frame_t = np.ndarray
+
     def __init__(self, filename: str):
         self.filename = filename
 
@@ -18,20 +21,21 @@ class CVReadVideo:
     def __exit__(self, exc_type, exc_val, exc_tb):
         self.cap.release()
 
-    def __iter__(self):
+    def __iter__(self) -> CVReadVideo:
         return self
 
-    def __next__(self):
+    def __next__(self) -> frame_t:
         ret, frame = self.cap.read()
         if ret:
             return frame
         raise StopIteration()
 
-    def __len__(self):
+    def __len__(self) -> int:
         return int(self.cap.get(cv.CAP_PROP_FRAME_COUNT))
 
-    def get_dims(self) -> Tuple[int, int]:  # height, width
-        return int(self.cap.get(4)), int(self.cap.get(3))
+    def get_dims(self) -> Tuple[int, int]:
+        return int(self.cap.get(cv.CAP_PROP_FRAME_HEIGHT)), \
+               int(self.cap.get(cv.CAP_PROP_FRAME_WIDTH))
 
 #
 # from mss import mss
